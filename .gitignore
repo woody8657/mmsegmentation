@@ -115,6 +115,11 @@ data
 *.log.json
 work_dirs/
 mmseg/.mim
+*.zip
 
 # Pytorch
 *.pth
+
+
+
+.nfs00000000058800bf00012a75

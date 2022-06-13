@@ -11,7 +11,7 @@ model = dict(
         in_channels=3,
         embed_dims=768,
         num_layers=12,
-        num_heads=12,
+        num_heads=2,
         drop_path_rate=0.1,
         attn_drop_rate=0.0,
         drop_rate=0.0,
@@ -26,11 +26,11 @@ model = dict(
         channels=768,
         num_classes=150,
         num_layers=2,
-        num_heads=12,
+        num_heads=2,
         embed_dims=768,
         dropout_ratio=0.0,
         loss_decode=dict(
-            type='CrossEntropyLoss', use_sigmoid=False, loss_weight=1.0),
+            type='DiceLoss', use_sigmoid=False, loss_weight=1.0),
     ),
     test_cfg=dict(mode='slide', crop_size=(512, 512), stride=(480, 480)),
 )

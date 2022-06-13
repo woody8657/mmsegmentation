@@ -10,6 +10,8 @@ from mmcv.engine import collect_results_cpu, collect_results_gpu
 from mmcv.image import tensor2imgs
 from mmcv.runner import get_dist_info
 
+import cv2
+
 
 def np2tmp(array, temp_file_name=None, tmpdir=None):
     """Save ndarray to local numpy file.
@@ -89,7 +91,12 @@ def single_gpu_test(model,
     for batch_indices, data in zip(loader_indices, data_loader):
         with torch.no_grad():
             result = model(return_loss=False, **data)
-
+        
+        # path = data['img_metas'][0].data[0][0]['filename']
+        # new_path = 'S5_solution' + path[41:-4] + '.png'
+        # cv2.imwrite(new_path, np.squeeze((1-np.array(result))*255,axis=0))
+        # print(new_path)
+        # print(np.unique(np.array(result)))
         if show or out_dir:
             img_tensor = data['img'][0]
             img_metas = data['img_metas'][0].data[0]
