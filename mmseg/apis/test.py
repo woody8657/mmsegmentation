@@ -94,9 +94,15 @@ def single_gpu_test(model,
             result = model(return_loss=False, **data)
         
         path = data['img_metas'][0].data[0][0]['filename']
-        os.makedirs(os.path.join(path.split('/')[-4]+'_mask',path.split('/')[-3],path.split('/')[-2]), exist_ok=True)
-        new_path = os.path.join(path.split('/')[-4]+'_mask',path.split('/')[-3],path.split('/')[-2], path.split('/')[-1])
+        if path.split('/')[-4] == '..':
+            os.makedirs(os.path.join(path.split('/')[-3],path.split('/')[-2]), exist_ok=True)
+            new_path = os.path.join(path.split('/')[-3],path.split('/')[-2], path.split('/')[-1])
+        else:
+            os.makedirs(os.path.join(path.split('/')[-4],path.split('/')[-3],path.split('/')[-2]), exist_ok=True)
+            new_path = os.path.join(path.split('/')[-4],path.split('/')[-3],path.split('/')[-2], path.split('/')[-1])
+        
         new_path = new_path[:-4] + '.png'
+       
         cv2.imwrite(new_path, np.squeeze((1-np.array(result))*255,axis=0))
         
         print(new_path)

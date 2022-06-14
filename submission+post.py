@@ -1,20 +1,24 @@
+import argparse
 import os
 import cv2
 import numpy as np
 import tqdm
 import glob
 
-if __name__ == '__main__':
-
-    folder_list = glob.glob('./hidden_mask/**/**/')
-
+def post(folder_list):
     for folder in tqdm.tqdm(folder_list):
         conf_list = []
         for i in range(10000000):
-            tmp = np.zeros((480, 640, 3))
+         
             try:
-                m = cv2.imread(folder+str(i)+'.png', cv2.IMREAD_GRAYSCALE)
-          
+                if folder == './challenge/HM/':
+                    m = cv2.imread(folder+"{:0>2d}".format(i+1)+'.png', cv2.IMREAD_GRAYSCALE)
+                elif folder == './challenge/KL/':
+                    m = cv2.imread(folder+"{:0>4d}".format(i)+'.png', cv2.IMREAD_GRAYSCALE)
+                else:
+                    m = cv2.imread(folder+str(i)+'.png', cv2.IMREAD_GRAYSCALE)
+                
+                tmp = np.zeros((m.shape[0], m.shape[1], 3))
                 m[m!=0] = 1
                 idx = np.where(m!=0)
                 tmp[idx[0],idx[1],:] = np.array([255, 0, 255])
@@ -66,10 +70,21 @@ if __name__ == '__main__':
                  
                 if number_of_blobs>=1:
                     conf_list.append(1)
-                    cv2.imwrite(folder+str(i)+'.png', tmp)
+                    if folder == './challenge/HM/':
+                        cv2.imwrite(folder+"{:0>2d}".format(i+1), tmp)
+                    elif folder == './challenge/KL/':
+                        cv2.imwrite(folder+"{:0>4d}".format(i), tmp)
+                    else:
+                        cv2.imwrite(folder+str(i)+'.png', tmp)
+                
                 else:            
                     conf_list.append(0)
-                    cv2.imwrite(folder+str(i)+'.png', np.zeros((480, 640, 3)))
+                    if folder == './challenge/HM/':
+                        cv2.imwrite(folder+"{:0>2d}".format(i+1), np.zeros((m.shape[0], m.shape[1], 3)))
+                    elif folder == './challenge/KL/':
+                        cv2.imwrite(folder+"{:0>4d}".format(i), np.zeros((m.shape[0], m.shape[1], 3)))
+                    else:
+                        cv2.imwrite(folder+str(i)+'.png', np.zeros((m.shape[0], m.shape[1], 3)))
                 
             except:
                 break
@@ -79,4 +94,21 @@ if __name__ == '__main__':
         f = open(path, 'w')
         f.writelines('\n'.join(conf_list))
         f.close()
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='Process some integers.')
+    parser.add_argument('--dataset', help='S5, hidden, challenge')
+    opt = parser.parse_args()
+    
+    print(opt.dataset)
+    if opt.dataset == 'hidden':
+        folder_list = glob.glob('./hidden/**/**/')
+    elif opt.dataset == 'S5':
+        folder_list = glob.glob('./S5/**/')
+    elif opt.dataset == 'challenge':
+        folder_list = glob.glob('./challenge/**/')
+    else:
+        pass
+    
+    post(folder_list)
+    
         
