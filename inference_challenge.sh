@@ -1,6 +1,6 @@
 CUDA_VISIBLE_DEVICES=1 python tools/test.py \
     configs/Ganzin/convnext_inf_challenge.py \
-    /home/u/woody8657/projs/mmsegmentation/work_dirs/convnext_b/best_mIoU_iter_12000.pth \
+    ../best_mIoU_iter_17000.pth \
     --show-dir test_results \
     --eval-options efficient_test=True \
     --eval mIoU
