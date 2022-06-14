@@ -1,5 +1,6 @@
 # Copyright (c) OpenMMLab. All rights reserved.
 import os.path as osp
+import os
 import tempfile
 import warnings
 
@@ -92,11 +93,15 @@ def single_gpu_test(model,
         with torch.no_grad():
             result = model(return_loss=False, **data)
         
-        # path = data['img_metas'][0].data[0][0]['filename']
-        # new_path = 'S5_solution' + path[41:-4] + '.png'
-        # cv2.imwrite(new_path, np.squeeze((1-np.array(result))*255,axis=0))
-        # print(new_path)
-        # print(np.unique(np.array(result)))
+        path = data['img_metas'][0].data[0][0]['filename']
+        os.makedirs(os.path.join(path.split('/')[-4]+'_mask',path.split('/')[-3],path.split('/')[-2]), exist_ok=True)
+        new_path = os.path.join(path.split('/')[-4]+'_mask',path.split('/')[-3],path.split('/')[-2], path.split('/')[-1])
+        new_path = new_path[:-4] + '.png'
+        cv2.imwrite(new_path, np.squeeze((1-np.array(result))*255,axis=0))
+        
+        print(new_path)
+        
+        '''
         if show or out_dir:
             img_tensor = data['img'][0]
             img_metas = data['img_metas'][0].data[0]
@@ -140,7 +145,7 @@ def single_gpu_test(model,
         batch_size = len(result)
         for _ in range(batch_size):
             prog_bar.update()
-
+    '''
     return results
 
 

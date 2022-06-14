@@ -5,14 +5,12 @@ import tqdm
 import glob
 
 if __name__ == '__main__':
-    folder_list = []
-    
-    for i in range(1,27):
-        folder_list.append('/home/u/woody8657/projs/mmsegmentation/S5_solution/%.2d/' %i)
-    
+
+    folder_list = glob.glob('./hidden_mask/**/**/')
+
     for folder in tqdm.tqdm(folder_list):
         conf_list = []
-        for i in range(1000):
+        for i in range(10000000):
             tmp = np.zeros((480, 640, 3))
             try:
                 m = cv2.imread(folder+str(i)+'.png', cv2.IMREAD_GRAYSCALE)
@@ -21,8 +19,14 @@ if __name__ == '__main__':
                 idx = np.where(m!=0)
                 tmp[idx[0],idx[1],:] = np.array([255, 0, 255])
                 
-                conf = (m!=0).sum() / 1500
-
+                # conf = (m!=0).sum() / 1500
+                # if conf>=1:
+                #     conf_list.append(1)
+                #     cv2.imwrite(folder+str(i)+'.png', tmp)
+                # else:            
+                #     conf_list.append(conf)
+                #     cv2.imwrite(folder+str(i)+'.png', tmp)
+                
                 params = cv2.SimpleBlobDetector_Params()
                 params.minRepeatability = 1
                 params.minDistBetweenBlobs = 1
@@ -59,22 +63,16 @@ if __name__ == '__main__':
                 text = "Number of Circular Blobs: " + str(len(keypoints))
                 print(folder+str(i)+'.png')
                 print(text)
-                # cv2.putText(blobs, text, (20, 550),
-                # cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 100, 255), 2)
-                # cv2.imwrite(folder+str(i)+'.png', tmp)  
+                 
                 if number_of_blobs>=1:
                     conf_list.append(1)
+                    cv2.imwrite(folder+str(i)+'.png', tmp)
                 else:            
                     conf_list.append(0)
                     cv2.imwrite(folder+str(i)+'.png', np.zeros((480, 640, 3)))
-                    
-                # if conf > 0:
-                #     conf_list.append(1)
-                # else:
-                #     conf_list.append(0)
                 
             except:
-                continue
+                break
         
         conf_list = [str(conf) for conf in conf_list]
         path = folder + 'conf.txt'
@@ -82,8 +80,3 @@ if __name__ == '__main__':
         f.writelines('\n'.join(conf_list))
         f.close()
         
-       
-    # for i in range(mask.shape[0]):
-    #     for j in range(mask.shape[1]):
-    #             mask[i,j,:] = np.array([255,0,255])
-    # cv2.imwrite('test.png', mask)
