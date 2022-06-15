@@ -71,18 +71,18 @@ def post(folder_list):
                 if number_of_blobs>=1:
                     conf_list.append(1)
                     if folder == './challenge/HM/':
-                        cv2.imwrite(folder+"{:0>2d}".format(i+1), tmp)
+                        cv2.imwrite(folder+"{:0>2d}".format(i+1)+'.png', tmp)
                     elif folder == './challenge/KL/':
-                        cv2.imwrite(folder+"{:0>4d}".format(i), tmp)
+                        cv2.imwrite(folder+"{:0>4d}".format(i)+'.png', tmp)
                     else:
                         cv2.imwrite(folder+str(i)+'.png', tmp)
                 
                 else:            
                     conf_list.append(0)
                     if folder == './challenge/HM/':
-                        cv2.imwrite(folder+"{:0>2d}".format(i+1), np.zeros((m.shape[0], m.shape[1], 3)))
+                        cv2.imwrite(folder+"{:0>2d}".format(i+1)+'.png', np.zeros((m.shape[0], m.shape[1], 3)))
                     elif folder == './challenge/KL/':
-                        cv2.imwrite(folder+"{:0>4d}".format(i), np.zeros((m.shape[0], m.shape[1], 3)))
+                        cv2.imwrite(folder+"{:0>4d}".format(i)+'.png', np.zeros((m.shape[0], m.shape[1], 3)))
                     else:
                         cv2.imwrite(folder+str(i)+'.png', np.zeros((m.shape[0], m.shape[1], 3)))
                 
