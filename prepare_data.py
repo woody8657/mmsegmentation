@@ -37,12 +37,14 @@ if __name__ == '__main__':
         
     num_pulpil_list = [i  for i in num_pulpil_list if i!=0] 
     n, bins, patches=plt.hist(num_pulpil_list)
+    print(f"Number of pixels that are labeled as pupil per image")
     np.array(num_pulpil_list)
-    plt.xlabel("num_pulpil")
+    plt.xlabel("number of pixels")
     plt.ylabel("#")
-    plt.title(f"Histogram, max: {np.array(num_pulpil_list).max()}, min: {np.array(num_pulpil_list).min()}, mean: {np.array(num_pulpil_list).mean()}")
+    plt.title('')
     plt.savefig(f"Histogram")
     np.array(num_pulpil_list)
+    
    
     
    

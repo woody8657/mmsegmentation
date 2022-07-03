@@ -93,21 +93,21 @@ def single_gpu_test(model,
         with torch.no_grad():
             result = model(return_loss=False, **data)
         
-        path = data['img_metas'][0].data[0][0]['filename']
-        if path.split('/')[-4] == '..':
-            os.makedirs(os.path.join(path.split('/')[-3],path.split('/')[-2]), exist_ok=True)
-            new_path = os.path.join(path.split('/')[-3],path.split('/')[-2], path.split('/')[-1])
-        else:
-            os.makedirs(os.path.join(path.split('/')[-4],path.split('/')[-3],path.split('/')[-2]), exist_ok=True)
-            new_path = os.path.join(path.split('/')[-4],path.split('/')[-3],path.split('/')[-2], path.split('/')[-1])
+        # path = data['img_metas'][0].data[0][0]['filename']
+        # if path.split('/')[-4] == '..':
+        #     os.makedirs(os.path.join(path.split('/')[-3],path.split('/')[-2]), exist_ok=True)
+        #     new_path = os.path.join(path.split('/')[-3],path.split('/')[-2], path.split('/')[-1])
+        # else:
+        #     os.makedirs(os.path.join(path.split('/')[-4],path.split('/')[-3],path.split('/')[-2]), exist_ok=True)
+        #     new_path = os.path.join(path.split('/')[-4],path.split('/')[-3],path.split('/')[-2], path.split('/')[-1])
         
-        new_path = new_path[:-4] + '.png'
+        # new_path = new_path[:-4] + '.png'
        
-        cv2.imwrite(new_path, np.squeeze((1-np.array(result))*255,axis=0))
+        # cv2.imwrite(new_path, np.squeeze((1-np.array(result))*255,axis=0))
         
-        print(new_path)
+        # print(new_path)
         
-        '''
+        
         if show or out_dir:
             img_tensor = data['img'][0]
             img_metas = data['img_metas'][0].data[0]
@@ -151,7 +151,7 @@ def single_gpu_test(model,
         batch_size = len(result)
         for _ in range(batch_size):
             prog_bar.update()
-    '''
+    
     return results
 
 

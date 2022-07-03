@@ -61,11 +61,10 @@ def post(folder_list):
             # Draw blobs on our image as red circles
             text = "Number of Circular Blobs: " + str(len(keypoints))
             blank = np.zeros((1, 1))
-            m = cv2.drawKeypoints((1-m)*255, keypoints, blank, (0, 0, 255),
+            m = cv2.drawKeypoints((m)*255, keypoints, blank, (0, 0, 255),
                                     cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
             
-            if len(keypoints)>0:
-                print(keypoints[0].size)
+           
             cv2.putText(m, text, (20, 550),
                     cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 100, 255), 2)
             number_of_blobs = len(keypoints)
